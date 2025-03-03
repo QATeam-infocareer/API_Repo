@@ -1,0 +1,1448 @@
+{
+	"info": {
+		"_postman_id": "1f27b1cd-d75d-47c3-bb1b-3eac3adaa828",
+		"name": "icleaf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38792430"
+	},
+	"item": [
+		{
+			"name": "ManageUser",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verify if the user can login by providing valid credentials\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(jsonData).to.have.property(\"userName\");\r",
+									"    pm.expect(jsonData).to.have.property(\"userToken\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify login fails with invalid credentials\", function () {\r",
+									"    \r",
+									"    pm.expect(jsonData).to.have.property(\"errFlg\");\r",
+									"    pm.expect(jsonData.errFlg).to.be.true; \r",
+									"    pm.expect(jsonData).to.have.property(\"resMsg\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that errFlg is present\", function() {\r",
+									"    pm.expect(pm.response.json()).to.have.property(\"errFlg\");\r",
+									"    pm.expect(pm.response.json().errFlg).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify if the message is equal to 'User Name or Password is empty!'\", function() {  \r",
+									"    pm.expect(jsonData.resMsg).to.eql(\"User Name or Password is empty!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that without providing the credentials\", function() {\r",
+									"    pm.expect(jsonData.errFlg).to.be.true;  \r",
+									"    pm.expect(jsonData.resMsg).to.eql(\"User Name or Password is empty!\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that Invalid account\", function() {\r",
+									"    pm.expect(jsonData.errFlg).to.be.true;  \r",
+									"    pm.expect(jsonData.resMsg).to.eql(\"Invalid User\");\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"Navins\",\r\n    \"password\": \"12345\"\r\n}   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{url}}/iccloud/rest/login",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "userDashboardDetails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verify error message content\", function() {\r",
+									"     pm.response.to.have.message(\"Token is required\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{url}}/iccloud/rest/loginservice/userDashboardDetails",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"userDashboardDetails"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MyCourses",
+			"item": [
+				{
+					"name": "getAllMyCourses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getAllMyCourses",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getAllMyCourses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCourseContent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://t{{url}}iccloud/rest/loginservice/getCourseContent?corpCourseId=135",
+							"protocol": "https",
+							"host": [
+								"t{{url}}iccloud"
+							],
+							"path": [
+								"rest",
+								"loginservice",
+								"getCourseContent"
+							],
+							"query": [
+								{
+									"key": "corpCourseId",
+									"value": "135"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCourseDetail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getCourseDetail?corpCourseId=",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getCourseDetail"
+							],
+							"query": [
+								{
+									"key": "corpCourseId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCorpCourseTrackInfo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userCourseVisitDto\": {\r\n    \"examTakenId\": 1,\r\n    \"interpRes\": \"\",\r\n    \"pageSecondsSpend\": {},\r\n    \"secDetailsId\": 2661,\r\n    \"secondsSpent\": 521,\r\n    \"visitedDuration\": 0.0,\r\n    \"lastVistCommentId\": null\r\n  }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/updateCorpCourseTrackInfo",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"updateCorpCourseTrackInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUsersComments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getAllUsersComments?corpCourseId=400&secDetailsId=266",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getAllUsersComments"
+							],
+							"query": [
+								{
+									"key": "corpCourseId",
+									"value": "400"
+								},
+								{
+									"key": "secDetailsId",
+									"value": "266"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCommentsVisit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/updateCommentsVisit?corpCourseId=400&secDetailsId=2640&lastCommentId=776",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"updateCommentsVisit"
+							],
+							"query": [
+								{
+									"key": "corpCourseId",
+									"value": "400"
+								},
+								{
+									"key": "secDetailsId",
+									"value": "2640"
+								},
+								{
+									"key": "lastCommentId",
+									"value": "776"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "My Assignments",
+			"item": [
+				{
+					"name": "getUserAsgnSubjects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getUserAsgnSubjects",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getUserAsgnSubjects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserAssignments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getUserAssignments?subjectId=474",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getUserAssignments"
+							],
+							"query": [
+								{
+									"key": "subjectId",
+									"value": "474"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadUserAssignment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "0",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/saveUserAssignment?subjectId=474&assignmentId=115&submittedFlag=false",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"saveUserAssignment"
+							],
+							"query": [
+								{
+									"key": "subjectId",
+									"value": "474"
+								},
+								{
+									"key": "assignmentId",
+									"value": "115"
+								},
+								{
+									"key": "submittedFlag",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveUserAssignment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "0",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/saveUserAssignment?subjectId=474&assignmentId=115&submittedFlag=true",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"saveUserAssignment"
+							],
+							"query": [
+								{
+									"key": "subjectId",
+									"value": "474"
+								},
+								{
+									"key": "assignmentId",
+									"value": "115"
+								},
+								{
+									"key": "submittedFlag",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "E-Resources",
+			"item": [
+				{
+					"name": "getUserPurchaseElearn (subjectlist)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getUserPurchaseElearn",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getUserPurchaseElearn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gettopiclistforelearn",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/gettopiclistforelearn?subjectId=474",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"gettopiclistforelearn"
+							],
+							"query": [
+								{
+									"key": "subjectId",
+									"value": "474"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllELearnContent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getAllELearnContent?subjectId=474&topicId=1517",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getAllELearnContent"
+							],
+							"query": [
+								{
+									"key": "subjectId",
+									"value": "474"
+								},
+								{
+									"key": "topicId",
+									"value": "1517"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exams",
+			"item": [
+				{
+					"name": "activeexamsDto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/activeexamsDto",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"activeexamsDto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listAllExamPacks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/listAllExamPacks?completeFlag=false&inCompleteFlag=false",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"listAllExamPacks"
+							],
+							"query": [
+								{
+									"key": "completeFlag",
+									"value": "false"
+								},
+								{
+									"key": "inCompleteFlag",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activeExamsByPackId (view exam)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/activeExamsByPackId?examPackId=252",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"activeExamsByPackId"
+							],
+							"query": [
+								{
+									"key": "examPackId",
+									"value": "252"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activeexamdetails (Hisory)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/activeexamdetails",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"activeexamdetails"
+							],
+							"query": [
+								{
+									"key": "exampackid",
+									"value": "252",
+									"disabled": true
+								},
+								{
+									"key": "examid",
+									"value": "729",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getExamInstructions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getExamInstructions",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getExamInstructions"
+							],
+							"query": [
+								{
+									"key": "examId",
+									"value": "729",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startExamDto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "examId",
+									"value": "729",
+									"type": "text"
+								},
+								{
+									"key": "examPackId",
+									"value": "252",
+									"type": "text"
+								},
+								{
+									"key": "examTakenId",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "elearnFlag",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/startExamDto",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"startExamDto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getQuestionAnswerDetails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "examId",
+									"value": "729",
+									"type": "text"
+								},
+								{
+									"key": "examPackId",
+									"value": "252",
+									"type": "text"
+								},
+								{
+									"key": "examTakenId",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "activeexam",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "3052",
+									"type": "text"
+								},
+								{
+									"key": "elearnFlag",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/getQuestionAnswerDetails",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"getQuestionAnswerDetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCurrentQuestion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"examSettingDto\":{\r\n    \"examTitle\": \"Exam - 01\",\r\n    \"examPackId\": 252,\r\n    \"examId\": 729,\r\n    \"examTakenId\": 70335,\r\n    \"finalExam\": false,\r\n    \"newExam\": true,\r\n    \"timedExam\": false,\r\n    \"aidedExam\": false,\r\n    \"customExam\": false,\r\n    \"examCategory\": 0,\r\n    \"examDesc\": \"Exam for overlapped the question in review exam\",\r\n    \"examPackDesc\": null,\r\n    \"startTime\": null,\r\n    \"endTime\": null,\r\n    \"topicQuestionMap\": null,\r\n    \"defineExam\": true,\r\n    \"totNoOfQuestion\": 3,\r\n    \"currentIndex\": null,\r\n    \"initFlag\": false,\r\n    \"userId\": 3052,\r\n    \"elapsedDuration\": 2,\r\n    \"demoFlg\": false,\r\n    \"elearnFlag\": false,\r\n    \"secureexamwindow\": false,\r\n    \"shuffleExam\": true,\r\n    \"strictMode\": false,\r\n    \"announceResults\": false,\r\n    \"proctoringExam\": false,\r\n    \"retakePassPercentBased\": 0,\r\n    \"passPercent\": null,\r\n    \"remindBeforeSecs\": null,\r\n    \"activeExam\": true\r\n},\r\n  \"questionAnswersDto\":{\r\n    \"answerDto\": {\r\n        \"answerList\": [\r\n            {\r\n                \"id\": 114796,\r\n                \"questionId\": null,\r\n                \"answerText\": \"High Level\",\r\n                \"correctAnswerFlag\": false,\r\n                \"imageAnswer\": false,\r\n                \"imageSrc\": null,\r\n                \"hotspotLeftPosition\": \"\",\r\n                \"hotspotTopPosition\": \"\"\r\n            },\r\n            {\r\n                \"id\": 114797,\r\n                \"questionId\": null,\r\n                \"answerText\": \"Spring Framework\",\r\n                \"correctAnswerFlag\": false,\r\n                \"imageAnswer\": false,\r\n                \"imageSrc\": null,\r\n                \"hotspotLeftPosition\": \"\",\r\n                \"hotspotTopPosition\": \"\"\r\n            },\r\n            {\r\n                \"id\": 114798,\r\n                \"questionId\": null,\r\n                \"answerText\": \"Mobile\",\r\n                \"correctAnswerFlag\": false,\r\n                \"imageAnswer\": false,\r\n                \"imageSrc\": null,\r\n                \"hotspotLeftPosition\": \"\",\r\n                \"hotspotTopPosition\": \"\"\r\n            },\r\n            {\r\n                \"id\": 114799,\r\n                \"questionId\": null,\r\n                \"answerText\": \"Web\",\r\n                \"correctAnswerFlag\": false,\r\n                \"imageAnswer\": false,\r\n                \"imageSrc\": null,\r\n                \"hotspotLeftPosition\": \"\",\r\n                \"hotspotTopPosition\": \"\"\r\n            },\r\n            {\r\n                \"id\": 114800,\r\n                \"questionId\": null,\r\n                \"answerText\": \"Flutter\",\r\n                \"correctAnswerFlag\": false,\r\n                \"imageAnswer\": false,\r\n                \"imageSrc\": null,\r\n                \"hotspotLeftPosition\": \"\",\r\n                \"hotspotTopPosition\": \"\"\r\n            }\r\n        ],\r\n        \"correctAnsIdx\": \"ULf+QnM2RXp8YOplu5LeCw==\",\r\n        \"correctAnswExplanation\": \"Framework\\n\",\r\n        \"userSelecxtedIdx\": \"-1\",\r\n        \"answered\": false\r\n    },\r\n    \"questionType\": 1,\r\n    \"questionId\": 29163,\r\n    \"questionNo\": 1,\r\n    \"questionTxt\": \"What is Springboot?\",\r\n    \"reviewFlag\": false,\r\n    \"justifyFlag\": false,\r\n    \"topicId\": 952,\r\n    \"topicName\": \"Intro\",\r\n    \"examQuestionId\": 32114,\r\n    \"correctAnswerCnt\": 0,\r\n    \"wrongAnswerCnt\": 0,\r\n    \"marks\": 1,\r\n    \"negativeMarks\": 0,\r\n    \"imgefile\": \"\",\r\n    \"audiofile\": \"\",\r\n    \"videofile\": \"\",\r\n    \"answerdescriptionImagefile\": \"\",\r\n    \"answerdescriptionAudiofile\": \"\",\r\n    \"answerdescriptionVideofile\": \"\",\r\n    \"examStatus\": null,\r\n    \"tags\": [],\r\n    \"evaluationRemarks\": \"\",\r\n    \"hotspotFlg\": false,\r\n    \"hotspotImgWidth\": \"\",\r\n    \"hotspotImgHeight\": \"\",\r\n    \"multiChoiceFlg\": false,\r\n    \"subjectId\": 172,\r\n    \"subjectName\": \"DASM SUB\",\r\n    \"correctFlag\": false\r\n},\r\n\"unsavedQuestions\":{\r\n    \"29163\": {\r\n        \"answerDto\": {\r\n            \"answerList\": [\r\n                {\r\n                    \"id\": 114796,\r\n                    \"questionId\": null,\r\n                    \"answerText\": \"High Level\",\r\n                    \"correctAnswerFlag\": false,\r\n                    \"imageAnswer\": false,\r\n                    \"imageSrc\": null,\r\n                    \"hotspotLeftPosition\": \"\",\r\n                    \"hotspotTopPosition\": \"\"\r\n                },\r\n                {\r\n                    \"id\": 114797,\r\n                    \"questionId\": null,\r\n                    \"answerText\": \"Spring Framework\",\r\n                    \"correctAnswerFlag\": false,\r\n                    \"imageAnswer\": false,\r\n                    \"imageSrc\": null,\r\n                    \"hotspotLeftPosition\": \"\",\r\n                    \"hotspotTopPosition\": \"\"\r\n                },\r\n                {\r\n                    \"id\": 114798,\r\n                    \"questionId\": null,\r\n                    \"answerText\": \"Mobile\",\r\n                    \"correctAnswerFlag\": false,\r\n                    \"imageAnswer\": false,\r\n                    \"imageSrc\": null,\r\n                    \"hotspotLeftPosition\": \"\",\r\n                    \"hotspotTopPosition\": \"\"\r\n                },\r\n                {\r\n                    \"id\": 114799,\r\n                    \"questionId\": null,\r\n                    \"answerText\": \"Web\",\r\n                    \"correctAnswerFlag\": false,\r\n                    \"imageAnswer\": false,\r\n                    \"imageSrc\": null,\r\n                    \"hotspotLeftPosition\": \"\",\r\n                    \"hotspotTopPosition\": \"\"\r\n                },\r\n                {\r\n                    \"id\": 114800,\r\n                    \"questionId\": null,\r\n                    \"answerText\": \"Flutter\",\r\n                    \"correctAnswerFlag\": false,\r\n                    \"imageAnswer\": false,\r\n                    \"imageSrc\": null,\r\n                    \"hotspotLeftPosition\": \"\",\r\n                    \"hotspotTopPosition\": \"\"\r\n                }\r\n            ],\r\n            \"correctAnsIdx\": \"ULf+QnM2RXp8YOplu5LeCw==\",\r\n            \"correctAnswExplanation\": \"Framework\\n\",\r\n            \"userSelecxtedIdx\": \"-1\",\r\n            \"answered\": false\r\n        },\r\n        \"questionType\": 1,\r\n        \"questionId\": 29163,\r\n        \"questionNo\": 1,\r\n        \"questionTxt\": \"What is Springboot?\",\r\n        \"reviewFlag\": false,\r\n        \"justifyFlag\": false,\r\n        \"topicId\": 952,\r\n        \"topicName\": \"Intro\",\r\n        \"examQuestionId\": 32114,\r\n        \"correctAnswerCnt\": 0,\r\n        \"wrongAnswerCnt\": 0,\r\n        \"marks\": 1,\r\n        \"negativeMarks\": 0,\r\n        \"imgefile\": \"\",\r\n        \"audiofile\": \"\",\r\n        \"videofile\": \"\",\r\n        \"answerdescriptionImagefile\": \"\",\r\n        \"answerdescriptionAudiofile\": \"\",\r\n        \"answerdescriptionVideofile\": \"\",\r\n        \"examStatus\": null,\r\n        \"tags\": [],\r\n        \"evaluationRemarks\": \"\",\r\n        \"hotspotFlg\": false,\r\n        \"hotspotImgWidth\": \"\",\r\n        \"hotspotImgHeight\": \"\",\r\n        \"multiChoiceFlg\": false,\r\n        \"subjectId\": 172,\r\n        \"subjectName\": \"DASM SUB\",\r\n        \"correctFlag\": false\r\n    }\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/updateCurrentQuestion",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"updateCurrentQuestion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveReportQuestions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"questionId\": 29157,\r\n    \"examId\": 729,\r\n    \"reportType\": \"distracting\",\r\n    \"comments\": \"\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/saveReportQuestions",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"saveReportQuestions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "suspendOrsubmitExam (exam save and exit)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"examSettingDto\":{\r\n    \"examTitle\": \"Exam - 01\",\r\n    \"examPackId\": 252,\r\n    \"examId\": 729,\r\n    \"examTakenId\": 70335,\r\n    \"finalExam\": false,\r\n    \"newExam\": true,\r\n    \"timedExam\": false,\r\n    \"aidedExam\": false,\r\n    \"customExam\": false,\r\n    \"examCategory\": 0,\r\n    \"examDesc\": \"Exam for overlapped the question in review exam\",\r\n    \"examPackDesc\": null,\r\n    \"startTime\": null,\r\n    \"endTime\": null,\r\n    \"topicQuestionMap\": null,\r\n    \"defineExam\": true,\r\n    \"totNoOfQuestion\": 3,\r\n    \"currentIndex\": null,\r\n    \"initFlag\": false,\r\n    \"userId\": 3052,\r\n    \"elapsedDuration\": 5,\r\n    \"demoFlg\": false,\r\n    \"elearnFlag\": false,\r\n    \"secureexamwindow\": false,\r\n    \"shuffleExam\": true,\r\n    \"strictMode\": false,\r\n    \"announceResults\": false,\r\n    \"proctoringExam\": false,\r\n    \"retakePassPercentBased\": 0,\r\n    \"passPercent\": null,\r\n    \"remindBeforeSecs\": null,\r\n    \"activeExam\": true\r\n},\r\n\"examStatus\":0,\r\n\"questionAnswersDto\":{\r\n    \"answerDto\": {\r\n        \"longAnswerId\": null,\r\n        \"answerText\": \"\",\r\n        \"qDetailsId\": 29157,\r\n        \"answered\": false,\r\n        \"answerDesc\": \"Mobile and web\\n\",\r\n        \"userSelecxtedIdx\": -1\r\n    },\r\n    \"questionType\": 5,\r\n    \"questionId\": 29157,\r\n    \"questionNo\": 2,\r\n    \"questionTxt\": \"What is Flutter?\",\r\n    \"reviewFlag\": false,\r\n    \"justifyFlag\": false,\r\n    \"topicId\": 952,\r\n    \"topicName\": \"Intro\",\r\n    \"examQuestionId\": 32112,\r\n    \"correctAnswerCnt\": 0,\r\n    \"wrongAnswerCnt\": 0,\r\n    \"marks\": 1,\r\n    \"negativeMarks\": 0,\r\n    \"imgefile\": \"\",\r\n    \"audiofile\": \"\",\r\n    \"videofile\": \"\",\r\n    \"answerdescriptionImagefile\": \"\",\r\n    \"answerdescriptionAudiofile\": \"\",\r\n    \"answerdescriptionVideofile\": \"\",\r\n    \"examStatus\": null,\r\n    \"tags\": [],\r\n    \"evaluationRemarks\": \"\",\r\n    \"hotspotFlg\": false,\r\n    \"hotspotImgWidth\": \"\",\r\n    \"hotspotImgHeight\": \"\",\r\n    \"multiChoiceFlg\": false,\r\n    \"subjectId\": null,\r\n    \"subjectName\": \"\",\r\n    \"correctFlag\": false\r\n},\r\n\"unsavedQuestions\":{\r\n    \"29157\": {\r\n        \"answerDto\": {\r\n            \"longAnswerId\": null,\r\n            \"answerText\": \"\",\r\n            \"qDetailsId\": 29157,\r\n            \"answered\": false,\r\n            \"answerDesc\": \"Mobile and web\\n\",\r\n            \"userSelecxtedIdx\": -1\r\n        },\r\n        \"questionType\": 5,\r\n        \"questionId\": 29157,\r\n        \"questionNo\": 2,\r\n        \"questionTxt\": \"What is Flutter?\",\r\n        \"reviewFlag\": false,\r\n        \"justifyFlag\": false,\r\n        \"topicId\": 952,\r\n        \"topicName\": \"Intro\",\r\n        \"examQuestionId\": 32112,\r\n        \"correctAnswerCnt\": 0,\r\n        \"wrongAnswerCnt\": 0,\r\n        \"marks\": 1,\r\n        \"negativeMarks\": 0,\r\n        \"imgefile\": \"\",\r\n        \"audiofile\": \"\",\r\n        \"videofile\": \"\",\r\n        \"answerdescriptionImagefile\": \"\",\r\n        \"answerdescriptionAudiofile\": \"\",\r\n        \"answerdescriptionVideofile\": \"\",\r\n        \"examStatus\": null,\r\n        \"tags\": [],\r\n        \"evaluationRemarks\": \"\",\r\n        \"hotspotFlg\": false,\r\n        \"hotspotImgWidth\": \"\",\r\n        \"hotspotImgHeight\": \"\",\r\n        \"multiChoiceFlg\": false,\r\n        \"subjectId\": null,\r\n        \"subjectName\": \"\",\r\n        \"correctFlag\": false\r\n    }\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/suspendOrsubmitExam",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"suspendOrsubmitExam"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "suspendOrsubmitExam (sumit)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"examSettingDto\":{\r\n    \"examTitle\": \"Exam - 01\",\r\n    \"examPackId\": 252,\r\n    \"examId\": 729,\r\n    \"examTakenId\": 70335,\r\n    \"finalExam\": false,\r\n    \"newExam\": true,\r\n    \"timedExam\": false,\r\n    \"aidedExam\": false,\r\n    \"customExam\": false,\r\n    \"examCategory\": 0,\r\n    \"examDesc\": \"Exam for overlapped the question in review exam\",\r\n    \"examPackDesc\": null,\r\n    \"startTime\": null,\r\n    \"endTime\": null,\r\n    \"topicQuestionMap\": null,\r\n    \"defineExam\": true,\r\n    \"totNoOfQuestion\": 3,\r\n    \"currentIndex\": null,\r\n    \"initFlag\": false,\r\n    \"userId\": 3052,\r\n    \"elapsedDuration\": 5,\r\n    \"demoFlg\": false,\r\n    \"elearnFlag\": false,\r\n    \"secureexamwindow\": false,\r\n    \"shuffleExam\": true,\r\n    \"strictMode\": false,\r\n    \"announceResults\": false,\r\n    \"proctoringExam\": false,\r\n    \"retakePassPercentBased\": 0,\r\n    \"passPercent\": null,\r\n    \"remindBeforeSecs\": null,\r\n    \"activeExam\": true\r\n},\r\n\"examStatus\":1,\r\n\"questionAnswersDto\":{\r\n    \"answerDto\": {\r\n        \"longAnswerId\": null,\r\n        \"answerText\": \"\",\r\n        \"qDetailsId\": 29157,\r\n        \"answered\": false,\r\n        \"answerDesc\": \"Mobile and web\\n\",\r\n        \"userSelecxtedIdx\": -1\r\n    },\r\n    \"questionType\": 5,\r\n    \"questionId\": 29157,\r\n    \"questionNo\": 2,\r\n    \"questionTxt\": \"What is Flutter?\",\r\n    \"reviewFlag\": false,\r\n    \"justifyFlag\": false,\r\n    \"topicId\": 952,\r\n    \"topicName\": \"Intro\",\r\n    \"examQuestionId\": 32112,\r\n    \"correctAnswerCnt\": 0,\r\n    \"wrongAnswerCnt\": 0,\r\n    \"marks\": 1,\r\n    \"negativeMarks\": 0,\r\n    \"imgefile\": \"\",\r\n    \"audiofile\": \"\",\r\n    \"videofile\": \"\",\r\n    \"answerdescriptionImagefile\": \"\",\r\n    \"answerdescriptionAudiofile\": \"\",\r\n    \"answerdescriptionVideofile\": \"\",\r\n    \"examStatus\": null,\r\n    \"tags\": [],\r\n    \"evaluationRemarks\": \"\",\r\n    \"hotspotFlg\": false,\r\n    \"hotspotImgWidth\": \"\",\r\n    \"hotspotImgHeight\": \"\",\r\n    \"multiChoiceFlg\": false,\r\n    \"subjectId\": null,\r\n    \"subjectName\": \"\",\r\n    \"correctFlag\": false\r\n},\r\n\"unsavedQuestions\":{\r\n    \"29157\": {\r\n        \"answerDto\": {\r\n            \"longAnswerId\": null,\r\n            \"answerText\": \"\",\r\n            \"qDetailsId\": 29157,\r\n            \"answered\": false,\r\n            \"answerDesc\": \"Mobile and web\\n\",\r\n            \"userSelecxtedIdx\": -1\r\n        },\r\n        \"questionType\": 5,\r\n        \"questionId\": 29157,\r\n        \"questionNo\": 2,\r\n        \"questionTxt\": \"What is Flutter?\",\r\n        \"reviewFlag\": false,\r\n        \"justifyFlag\": false,\r\n        \"topicId\": 952,\r\n        \"topicName\": \"Intro\",\r\n        \"examQuestionId\": 32112,\r\n        \"correctAnswerCnt\": 0,\r\n        \"wrongAnswerCnt\": 0,\r\n        \"marks\": 1,\r\n        \"negativeMarks\": 0,\r\n        \"imgefile\": \"\",\r\n        \"audiofile\": \"\",\r\n        \"videofile\": \"\",\r\n        \"answerdescriptionImagefile\": \"\",\r\n        \"answerdescriptionAudiofile\": \"\",\r\n        \"answerdescriptionVideofile\": \"\",\r\n        \"examStatus\": null,\r\n        \"tags\": [],\r\n        \"evaluationRemarks\": \"\",\r\n        \"hotspotFlg\": false,\r\n        \"hotspotImgWidth\": \"\",\r\n        \"hotspotImgHeight\": \"\",\r\n        \"multiChoiceFlg\": false,\r\n        \"subjectId\": null,\r\n        \"subjectName\": \"\",\r\n        \"correctFlag\": false\r\n    }\r\n}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/suspendOrsubmitExam",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"suspendOrsubmitExam"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "percentage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/percentage",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"percentage"
+							],
+							"query": [
+								{
+									"key": "examId",
+									"value": "1091",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "examresultsDto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/examresultsDto?examId=1091&examPackId=390&examTakenId=70338&elearnFlag=false",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"examresultsDto"
+							],
+							"query": [
+								{
+									"key": "examId",
+									"value": "1091"
+								},
+								{
+									"key": "examPackId",
+									"value": "390"
+								},
+								{
+									"key": "examTakenId",
+									"value": "70338"
+								},
+								{
+									"key": "elearnFlag",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reviewexamAjax",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "reivewexamId",
+									"value": "1091",
+									"type": "text"
+								},
+								{
+									"key": "reivewexamPackId",
+									"value": "390",
+									"type": "text"
+								},
+								{
+									"key": "reivewexamTakenId",
+									"value": "70338",
+									"type": "text"
+								},
+								{
+									"key": "elearnFlag",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/reviewexamAjax",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"reviewexamAjax"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "examtakenAjaxCommon",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDQzNTY2M30.Qd4lLoYfDVFQ8YLkrL_gkvUP9sFqZMc8WW0W34zBj8k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://test.infocareerindia.com/iccloud/rest/loginservice/examtakenAjaxCommon?examTakenId=70338",
+							"protocol": "https",
+							"host": [
+								"test",
+								"infocareerindia",
+								"com"
+							],
+							"path": [
+								"iccloud",
+								"rest",
+								"loginservice",
+								"examtakenAjaxCommon"
+							],
+							"query": [
+								{
+									"key": "examTakenId",
+									"value": "70338"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIiLCJtb2JpbGVOdW1iZXIiOiI5Njc3MTIxNDI4IiwiZW1haWwiOiJuYXZpbmxvZ3U5Njc3QGdtYWlsLmNvbSIsInVzZXJJZCI6MzA1Miwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTczNDYwMzE0OX0.TfOHY9BI8x0BdrOKsfOuS1JvRx85659jKzGkIMDbqHk",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "test.icleaf.com",
+			"type": "string"
+		}
+	]
+}
